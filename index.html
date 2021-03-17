@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="author"             content="Filipe Martins">
+    <meta name="generator"          content="VSCode">
+    <meta name="keywords"           content="Projeto, Newtab Academy, HTML5, CSS3, Curso">
+    <meta name="description"        content="Projeto HTML">
+    <meta name="application-name"   content="Projeto HTML">
+    <title>Projeto</title>
+
+    <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <style>
+
+
+        .divtest {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+        }
+
+
+        body {
+            margin: 0;
+        }
+        main {
+            width: 100vw;
+            max-width: 1100px; /*Requisito*/
+            height: 100vh;
+        }
+        footer {
+            display: block;
+            width: 100vw;
+            height: 2vh;
+            position: absolute;
+            bottom: 0px;
+            background-color: darkgray;
+        }
+
+    </style>
+</head>
+
+<body>
+    <main>
+
+        <header>
+            <div>
+                <svg width="43" height="41" viewBox="0 0 43 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32.3043 32.8246C34.7056 32.8246 36.6522 30.8609 36.6522 28.4386C36.6522 26.0163 34.7056 24.0526 32.3043 24.0526C29.9031 24.0526 27.9565 26.0163 27.9565 28.4386C27.9565 30.8609 29.9031 32.8246 32.3043 32.8246ZM32.3043 32.8246C28.4624 32.8246 25.3478 35.9664 25.3478 39.8421H39.2609C39.2609 35.9664 36.1463 32.8246 32.3043 32.8246ZM16.6522 10.8947C16.6522 15.2549 13.1483 18.7895 8.82609 18.7895C4.50386 18.7895 1 15.2549 1 10.8947C1 6.53459 4.50386 3 8.82609 3C13.1483 3 16.6522 6.53459 16.6522 10.8947ZM1 24.0526H16.6522V39.8421H1V24.0526ZM32.3043 3L41 18.7895H23.6087L32.3043 3Z" stroke="#333333" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+                
+                    
+
+
+                <h1>Controle Financeiro</h1>
+            </div>
+
+            <div>
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </div>
+            <div>
+                <div><i class="fa fa-times" aria-hidden="true"></i></div>
+                <nav>
+                    <a href="limpardados.html" target="_self">Limpar dados</a>
+                    <a href="cadastrotransacoes.html" target="_self">Cadastro de transações</a>
+                    <a href="salvar.html" target="_self">Salvar no servidor</a>
+                </nav>
+            </div>
+        </header>
+
+
+
+
+
+        <div>
+            <Section>
+                <h2>Nova transação</h2>
+                <form>
+                    <div>
+                        <label for="tipotr">Tipo de transação</label>
+                        <select>
+                            <option value="compra">Compra</option>
+                            <option value="venda">Venda</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="nomemerc">Nome da mercadoria</label>
+                        <input type="text" id="nomemerc" name="nomemerc" placeholder="Input">
+                    </div>
+                    <div class="divtest">
+                        <label for="valor">Valor</label>
+                        <input type="number" id="valor" name="valor" placeholder="R$ 0,00">
+                    </div>
+                    <button type="submit">Adicionar transação</button>
+                </form>
+            </Section>
+
+            <section>
+                <h2>Extrato de transações</h2>
+                <div>
+                    <Div>&nbsp;</Div> <div>Mercadoria</div> <div>Valor</div>
+                    <Div>+</Div> <div>Lorem ipsum dolor sit amet consectetur</div> <div>R$ 12.999,99</div>
+                    <Div>-</Div> <div>Quis nostrud exercitation</div> <div>R$ 99,99</div>
+                    <Div>+</Div> <div>Lorem ipsum</div> <div>R$ 9,99</div>
+                    <Div>&nbsp;</Div> <div>Total</div> <div> <div>R$ 12.909,99</div> <small>[LUCRO]</small> </div>
+                </div>
+
+            </section>
+        </div>
+
+
+
+
+        <footer>
+asda
+        </footer>
+    </main>
+</body>
+</html>
