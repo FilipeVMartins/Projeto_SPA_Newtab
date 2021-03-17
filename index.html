@@ -12,203 +12,12 @@
     <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/webfontkit-20210316-195009/stylesheet.css">
     <!-- <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'> -->
+    <link rel="stylesheet" href="css/stylesheet_main.css">
 
     <style>
 
-
-
-
-        body {
-            margin: 0;
-        }
-
-        main {
-            font-family: 'latoregular';
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-
-    
-
-
-        header {
-            background-color: #E0E0E0;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-        }
-
-        header div.wrapper {
-            width: 100%;
-            max-width: 1100px; /*Requisito*/
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-        }
-
-        
-
-        div.conteudo {
-            width: 100%;
-            max-width: 1100px; /*Requisito*/
-            background-color: aquamarine;
-            align-self: center;
-            display: flex;
-            flex-direction: row;
-        }
-
-        div.conteudo section {
-            padding: 20px;
-            margin: 20px;
-            border: 1px solid #979797;
-            /* box-sizing: border-box; The width and height properties (and min/max properties) includes content, padding and border */
-            border-radius: 4px;
-        }
-
-        div.conteudo section.transacao{
-            width: 400px;
-            height: 344px;
-        }
-
-        section.transacao form div {
-            display: flex;
-            flex-direction: column;
-            margin: 20px 0px;
-        }
-
-        section.transacao form div label{
-            height: 20px;
-            margin-bottom: 2px;
-        }
-
-        section.transacao form div .input{
-            height: 32px;
-            background-color: #FFFFFF;
-            border: 1px solid #979797;
-            /* box-sizing: border-box; */
-            border-radius: 4px;
-        }
-
-        section.transacao form button {
-            width: 370px;
-            height: 32px;
-            background-color: #333333;
-            border-radius: 4px;
-
-            font-style: normal;
-            font-weight: normal;   
-            font-size: 14px;
-            line-height: 22px;
-            text-align: center;
-            color: #FFFFFF;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        div.conteudo section.extrato{
-            width: 680px;
-            height: 281px;
-
-        }
-
-        div.conteudo section.extrato div.table div.row {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            margin: 10px 0px;
-
-        }
-
-        div.conteudo section.extrato div.table div.row:last-child {
-            border-top: 1px solid black;
-        }
-
-
-
-        div.conteudo section.extrato div.table div.row div.col{
-            display: flex;
-            flex-direction: column;
-        }
-
-        div.conteudo section.extrato div.table div.row div.col:nth-child(1){
-            width: 2%;
-            text-align: center;
-        }
-        
-        div.conteudo section.extrato div.table div.row div.col:nth-child(2){
-            width: 73%;
-            text-align: left;
-        }
-        
-        div.conteudo section.extrato div.table div.row div.col:nth-child(3){
-            width: 25%;
-            text-align: right;
-        }
-
-        
-
-        small {
-        font-size: 10px;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        div.conteudo section h2{
-            margin: 0px;
-            font-size: 18px;
-            text-align: center;
-            color: #000000;
-        }
-
-
-
-
-
-
-
-
-        footer {
-            display: block;
-            width: 100vw;
-            height: 8px;
-            position: absolute;
-            bottom: 0px;
-            background-color: #333333;
-        }
-
     </style>
+    
 </head>
 
 <body>
@@ -220,7 +29,7 @@
         
         <header>
             <div class="wrapper">
-                <svg width="43" height="41" viewBox="0 0 43 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="logo" width="43" height="41" viewBox="0 0 43 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M32.3043 32.8246C34.7056 32.8246 36.6522 30.8609 36.6522 28.4386C36.6522 26.0163 34.7056 24.0526 32.3043 24.0526C29.9031 24.0526 27.9565 26.0163 27.9565 28.4386C27.9565 30.8609 29.9031 32.8246 32.3043 32.8246ZM32.3043 32.8246C28.4624 32.8246 25.3478 35.9664 25.3478 39.8421H39.2609C39.2609 35.9664 36.1463 32.8246 32.3043 32.8246ZM16.6522 10.8947C16.6522 15.2549 13.1483 18.7895 8.82609 18.7895C4.50386 18.7895 1 15.2549 1 10.8947C1 6.53459 4.50386 3 8.82609 3C13.1483 3 16.6522 6.53459 16.6522 10.8947ZM1 24.0526H16.6522V39.8421H1V24.0526ZM32.3043 3L41 18.7895H23.6087L32.3043 3Z" stroke="#333333" stroke-width="2" stroke-linecap="square"/>
                 </svg>
                 
@@ -229,12 +38,12 @@
 
                 <h1>Controle Financeiro</h1>
 
-                <div>
-                    <div>
+                <div class="menu">
+                    <div class="menuicon">
                         <i class="fa fa-bars" aria-hidden="true"></i>
                     </div>
-                    <div>
-                        <div><i class="fa fa-times" aria-hidden="true"></i></div>
+                    <div class="menubar">
+                        <i class="fa fa-times" aria-hidden="true"></i>
                         <nav>
                             <a href="limpardados.html" target="_self">Limpar dados</a>
                             <a href="cadastrotransacoes.html" target="_self">Cadastro de transações</a>

@@ -1,0 +1,267 @@
+body {
+    margin: 0;
+}
+
+main {
+    font-family: 'latoregular';
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #E0E0E0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+header div.wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1100px; /*Requisito*/
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+header div.wrapper svg.logo {
+    width: auto;
+    height: auto;
+}
+
+header div.wrapper h1 {
+    width: auto;
+    margin-left: 20px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #333333;
+}
+
+header div.wrapper div.menu {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 0px;
+}
+
+header div.wrapper div.menu div.menuicon {
+    display: none;
+}
+
+header div.wrapper div.menu div.menubar i {
+    display: none;
+}
+
+header div.wrapper div.menu div.menubar nav{
+    background-color: #FFFFFF;
+    padding: 9px 0px;
+}
+
+/* nav links */
+header div.wrapper div.menu div.menubar nav a {
+    position: relative;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #333333;
+    padding: 10px 20px;
+    /* border-right: 1px solid #979797; */
+    transition:All 1s ease;
+    -webkit-transition: background-color 1s ease;
+    -moz-transition: background-color 1s ease;
+    -o-transition: background-color 1s ease;
+}
+
+header div.wrapper div.menu div.menubar nav a:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0px;
+    top: 25%;
+    height: 50%;
+    border-left: 1px solid #979797;
+}
+
+header div.wrapper div.menu div.menubar nav a:hover {
+    background-color: #333333;
+    color: #FFFFFF;
+}
+
+
+
+
+
+
+
+
+
+div.conteudo {
+    width: 100%;
+    max-width: 1100px; /*Requisito*/
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+}
+
+div.conteudo section {
+    padding: 20px; /*Aplicar-se ao extrato apenas na vertical*/
+    margin: 30px 10px;
+    border: 1px solid #979797;
+    /* box-sizing: border-box; The width and height properties (and min/max properties) includes content, padding and border */
+    border-radius: 4px;
+}
+
+/*sections titles text*/
+div.conteudo section h2{
+    margin: 0px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #000000;
+}
+
+div.conteudo section.transacao{
+    width: 400px;
+    height: 344px;
+}
+
+section.transacao form div {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+section.transacao form div label{
+    height: 20px;
+    margin-bottom: 2px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+    color: #333333;
+}
+
+section.transacao form div .input{
+    height: 32px;
+    background-color: #FFFFFF;
+    border: 1px solid #979797;
+    /* box-sizing: border-box; */
+    border-radius: 4px;
+    padding: 0px 12px;
+}
+
+/*form submit button */
+section.transacao form button {
+    width: 370px;
+    height: 32px;
+    background-color: #333333;
+    border-radius: 4px;
+    font-style: normal;
+    font-weight: normal;   
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+
+
+
+
+
+
+
+div.conteudo section.extrato{
+    width: 680px;
+    height: 281px;
+    padding: 20px 0px;
+    border: none;
+}
+
+/* table text */
+div.conteudo section.extrato div.table{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: #000000;
+}
+
+div.conteudo section.extrato div.table div.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 20px;
+}
+
+/* table borders */
+div.conteudo section.extrato div.table div.row:not(:last-child, :nth-last-child(2)) {
+    border-bottom: 1px solid #979797;
+}
+div.conteudo section.extrato div.table div.row:last-child {
+    border-top-style: double;
+    border-top-color: #979797;
+}
+
+/* table head text */
+div.conteudo section.extrato div.table div.row:first-child{
+    font-weight: bold;
+    line-height: 22px;
+}
+
+/* table last row text */
+div.conteudo section.extrato div.table div.row:last-child{
+    font-weight: bold;
+}
+
+/* table cols */
+div.conteudo section.extrato div.table div.row div.col{
+    display: flex;
+    flex-direction: column;
+}
+
+/* display table cols each */
+div.conteudo section.extrato div.table div.row div.col:nth-child(1){
+    width: 4%;
+    text-align: center;
+}
+
+div.conteudo section.extrato div.table div.row div.col:nth-child(2){
+    width: 71%;
+    text-align: left;
+}
+
+div.conteudo section.extrato div.table div.row div.col:nth-child(3){
+    width: 25%;
+    text-align: right;
+}
+
+/* 'lucro' text style */
+small {
+    font-size: 10px;
+    font-weight: normal;
+}
+
+
+
+
+
+
+
+
+footer {
+    display: block;
+    width: 100vw;
+    height: 8px;
+    position: absolute;
+    bottom: 0px;
+    background-color: #333333;
+}
