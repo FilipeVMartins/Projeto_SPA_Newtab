@@ -8,6 +8,7 @@ main {
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: #FFFFFF;
 }
 
 header {
@@ -15,6 +16,7 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    padding: 0px 20px;
 }
 
 header div.wrapper {
@@ -24,8 +26,18 @@ header div.wrapper {
     margin: 20px 0px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
+    /* flex-wrap: wrap; */
+}
+
+header div.wrapper2 {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    /*width: 50%; */
 }
 
 header div.wrapper svg.logo {
@@ -46,8 +58,8 @@ header div.wrapper h1 {
 header div.wrapper div.menu {
     display: flex;
     flex-direction: row;
-    position: absolute;
-    right: 0px;
+    /*position: absolute;
+    right: 0px; */
 }
 
 header div.wrapper div.menu div.menuicon {
@@ -99,26 +111,31 @@ header div.wrapper div.menu div.menubar nav a:hover {
 
 
 
-
-
 div.conteudo {
-    width: 100%;
-    max-width: 1100px; /*Requisito*/
-    align-self: center;
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+}
+
+div.conteudo div.wrapper {
+    width: 100%;
+    max-width: 1140px; /*Requisito, 40px a mais para as margins e paddings das duas sections*/
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
 }
 
 div.conteudo section {
-    padding: 20px; /*Aplicar-se ao extrato apenas na vertical*/
-    margin: 30px 10px;
+    padding: 20px;
     border: 1px solid #979797;
     /* box-sizing: border-box; The width and height properties (and min/max properties) includes content, padding and border */
     border-radius: 4px;
 }
 
 /*sections titles text*/
-div.conteudo section h2{
+div.conteudo section h2 {
     margin: 0px;
     font-style: normal;
     font-weight: bold;
@@ -128,9 +145,11 @@ div.conteudo section h2{
     color: #000000;
 }
 
+/* espaçamento na lateral esquerda aqui foi feito com margin pois o elemento tem border e padding*/
 div.conteudo section.transacao{
     width: 400px;
     height: 344px;
+    margin-left: 20px;
 }
 
 section.transacao form div {
@@ -168,6 +187,7 @@ section.transacao form div .addarrow {
     margin: 0px;
     padding: 0px;
     width: 100%;
+    background-color: #FFFFFF;
 }
 
 section.transacao form div .addarrow select{
@@ -183,7 +203,7 @@ section.transacao form div .addarrow .fa-angle-down{
     top: 25%;
     right: 12px;
     color: #595959;
-    font-weight: ;
+    /* font-weight: ; */
     z-index: 0;
 }
 /* end select customization*/
@@ -249,11 +269,10 @@ section.transacao form button:hover {
 
 
 
-
+/* espaçamento na lateral direita aqui foi feito com o próprio padding declarado anteriormente pois o elemento não tem margin*/
 div.conteudo section.extrato{
     width: 680px;
     height: 281px;
-    padding: 20px 0px;
     border: none;
 }
 
@@ -320,7 +339,6 @@ small {
     font-size: 10px;
     font-weight: normal;
 }
-
 
 
 
