@@ -322,6 +322,7 @@ div.conteudo section.extrato div.table div.row div.col{
 div.conteudo section.extrato div.table div.row div.col:nth-child(1){
     width: 4%;
     text-align: center;
+    margin-right: 11px;
 }
 
 div.conteudo section.extrato div.table div.row div.col:nth-child(2){
