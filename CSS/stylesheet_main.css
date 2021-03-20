@@ -26,19 +26,20 @@ header div.wrapper {
     margin: 20px 0px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     /* flex-wrap: wrap; */
 }
 
-header div.wrapper2 {
+/* usei margin auto no lugar disso*/
+/* header div.wrapper2 {
     padding: 0px;
     margin: 0px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    /*width: 50%; */
-}
+    /*width: 50%;
+} */
 
 header div.wrapper svg.logo {
     width: auto;
@@ -58,6 +59,7 @@ header div.wrapper h1 {
 header div.wrapper div.menu {
     display: flex;
     flex-direction: row;
+    margin-left: auto;
     /*position: absolute;
     right: 0px; */
 }
