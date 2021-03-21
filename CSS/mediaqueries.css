@@ -36,9 +36,10 @@
     }
 
     header div.wrapper div.menu div.menubar {
-        width: calc(162px + 20%); /* para evitar movimento estático dos 252px*/
+        /*width: calc(162px + 20%); para evitar movimento estático dos 252px*/
+        width: 0px;
         background-color: #333333;
-        display: none;
+        display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
@@ -47,11 +48,15 @@
         top: 0;
         right: 0;
         z-index: 5;
+        transition: width .5s ease;
+        -webkit-transition: width .5s ease;
+        -moz-transition: width .5s ease;
+        -o-transition: width .5s ease;
     }
 
     /* exibe a barra lateral, o elemento pai ao receber hover vai exibir a barra lateral, a barra lateral por ser filha continuará contando como se o hover ainda estivesse no elemento pai e assim o elemento filho também continuará sendo exibido*/
     header div.wrapper div.menu:hover div.menubar {
-        display: flex;
+        width: calc(162px + 20%);
     }
 
     header div.wrapper div.menu div.menubar i {
