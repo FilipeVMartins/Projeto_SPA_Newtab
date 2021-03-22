@@ -162,6 +162,10 @@
         background-color: lightgreen;
     }*/
 
+    div.conteudo div.wrapper {
+        margin-top: 10px;
+    }
+
     div.conteudo div.wrapper section.transacao {
         padding: 0px;
         border: none;
@@ -186,5 +190,10 @@
         width: 100%;
         margin-top: 15px;
         margin-bottom: 20px;
+    }
+
+    div.conteudo div.wrapper section.extrato{
+        margin-top: 10px;
+        padding: 0px;
     }
 }
