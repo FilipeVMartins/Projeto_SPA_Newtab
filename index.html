@@ -40,7 +40,7 @@
                         <div class="menubar">
                             <i class="fa fa-times" aria-hidden="true"></i>
                             <nav>
-                                <a href="limpardados.html" target="_self">Limpar dados</a>
+                                <a href="" target="_self" onclick="cleanData(event,'transactions')">Limpar dados</a>
                                 <a href="cadastrotransacoes.html" target="_self">Cadastro de transações</a>
                                 <a href="salvar.html" target="_self">Salvar no servidor</a>
                             </nav>
@@ -55,11 +55,12 @@
                 <div class="wrapper">
                     <section class="transacao">
                         <h2>Nova transação</h2>
-                        <form>
+                        <form onSubmit="formSubmit(event, 'transactions')">
                             <div>
                                 <label for="tipotr">Tipo de transação</label>
                                 <div class="addarrow">
-                                    <select class="input">
+                                    <select class="input" id="tipot" name="tipot" required>
+                                        <option value="" selected disabled hidden>Selecione</option>
                                         <option value="compra">Compra</option>
                                         <option value="venda">Venda</option>
                                     </select>
@@ -72,7 +73,7 @@
                             </div>
                             <div class="divtest">
                                 <label for="valor">Valor</label>
-                                <input type="number" id="valor" name="valor" class="input" placeholder="R$ 0,00">
+                                <input type="number" step="0.01" id="valor" name="valor" class="input" placeholder="R$ 0,00">
                             </div>
                             <button type="submit">Adicionar transação</button>
                         </form>
@@ -82,7 +83,7 @@
 
                     <section class="extrato">
                         <h2>Extrato de transações</h2>
-                        <div class="table">
+                        <div class="table" id="table">
                             <div class="row"> 
                                 <div class="col">&nbsp;&nbsp;&nbsp;</div>
                                 <div class="col">Mercadoria</div>
@@ -118,5 +119,6 @@
             <footer>
             </footer>
         </main>
+        <script src="js/index.js"></script>
     </body>
 </html>

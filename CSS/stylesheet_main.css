@@ -250,7 +250,19 @@ section.transacao form div .input{
     font-weight: normal;
     font-size: 14px;
     line-height: 22px;
+}
+
+/* select input placeholder*/
+section.transacao form div select:required:invalid {
     color: #888888;
+}
+
+/*section.transacao form div select option[value=""][disabled] {
+    display: none;
+}*/
+
+section.transacao form div select option {
+    color: black;
 }
 
 /*form submit button */
@@ -267,14 +279,18 @@ section.transacao form button {
     text-align: center;
     color: #FFFFFF;
     cursor: pointer;
-}
-
-section.transacao form button:hover {
-    /* Colocando a transition aqui ela não ocorre no retorno a cor original  */
     transition: background-color 0.5s ease;
     -webkit-transition: background-color 0.5s ease;
     -moz-transition: background-color 0.5s ease;
     -o-transition: background-color 0.5s ease;
+}
+
+section.transacao form button:hover {
+    /* Colocando a transition apenas aqui ela não ocorre no retorno a cor original  */
+    /*transition: background-color 0.5s ease;
+    -webkit-transition: background-color 0.5s ease;
+    -moz-transition: background-color 0.5s ease;
+    -o-transition: background-color 0.5s ease;*/
     background-color: #C4C4C4;
     color: #333333;
 }
