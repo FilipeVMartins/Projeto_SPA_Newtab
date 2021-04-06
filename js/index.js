@@ -36,17 +36,24 @@ class LocalStorages {
             //convert the json table to string and save.
             localStorage.setItem(this.lskey, JSON.stringify(jsontable));
 
+            //store the last used key for this table
+            localStorage.setItem(this.lskey + '-lastkey', '1');
+
         // else, retrieves the alrdy existing string to add the new registry.
         } else {
             // get the string at local and converts to json.
             localStorageTable = JSON.parse(localStorage.getItem(this.lskey));
             
-            // get the number of items and plus one to define the last pk number.
-            newkey = Object.keys(localStorageTable).length+1;
+            // get the last used key and plus one to define the new key number.
+            newkey = parseInt(localStorage.getItem(this.lskey + '-lastkey')) + 1;
             localStorageTable[newkey] = this.lsvalue;
+
+            //store the last used key for this table
+            localStorage.setItem(this.lskey + '-lastkey', newkey);
 
             //convert json to string and save all to local.
             localStorage.setItem(this.lskey, JSON.stringify(localStorageTable));
+            
 
             ///debugs
             ///console.log(localStorageTable) //returns the newTransaction obj
@@ -69,7 +76,7 @@ class LocalStorages {
     deleteAll(){
         localStorage.removeItem(this.lskey);
     }
-}
+};
 
 
 
@@ -79,22 +86,40 @@ class LocalStorages {
 
 class TableView{
 
-}
+    constructor (tablename, transactionkey){
+        this.tablename = tablename;
+        this.transactionkey = transactionkey;
+    };
+
+
+
+
+
+};
 
 
 
 
 
 
-function writeTableRows() {
+function writeTableRows(tipot, nomemerc, valor) {
     let newrow, lastrow;
+
+    if (tipot == 'venda'){
+        tipot = '+';
+    } else if (tipot == 'compra') {
+        tipot = '-';
+    };
 
     newrow = document.createElement("div");
     newrow.className = 'row';
-    newrow.innerHTML = 'aaa';
+    newrow.setAttribute('transaction-key', 'teste1');
+    newrow.innerHTML = `<div class="col">${tipot}</div>
+                        <div class="col">${nomemerc}</div>
+                        <div class="col">${valor}</div>`;
     lastrow = document.querySelector("#table div.row:last-child");
     document.querySelector("#table").insertBefore(newrow, lastrow);
-}
+};
 
 
 
@@ -109,18 +134,33 @@ function formSubmit(event, tablename) {
 
 
     
-    writeTableRows();
+    writeTableRows(transaction.ttype, transaction.prodname, transaction.value);
     
     
 
     storagetable = storage.loadAll();
-    console.log(storagetable)
+    console.log(storagetable);
+    console.log(document.querySelector("#table").children);
 
     //console.log(JSON.stringify(transaction));
     //console.log(JSON.parse(JSON.stringify(transaction)));
 };
 
 
+//helper
+function addstr (strA, strB, position) {
+    let output;
+
+    //falta limitar a entrada de position e verificar parametros obrigatorios
+
+    if (position < 0){
+        output = [strA.slice(0, strA.length+1+position), strB, strA.slice(strA.length+1+position, strA.length)].join('');
+    } else {
+        output = [strA.slice(0, position), strB, strA.slice(position)].join('');
+    }
+
+    return output;
+};
 
 
 
@@ -129,7 +169,50 @@ function cleanData(event, tablename) {
     let storageclean;
     event.preventDefault();
 
-    storageclean = new localStorages (tablename);
+    storageclean = new LocalStorages (tablename);
     storageclean.deleteAll();
     return;
-}
+};
+
+
+
+
+
+
+
+
+window.onload = (event) => {
+    console.log('page is fully loaded');
+
+
+
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  window.addEventListener('load', (event) => {
+//    console.log('page is fully loaded');
+//  });
