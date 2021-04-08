@@ -282,10 +282,10 @@ section.transacao form button {
     text-align: center;
     color: #FFFFFF;
     cursor: pointer;
-    transition: background-color 0.5s ease;
-    -webkit-transition: background-color 0.5s ease;
-    -moz-transition: background-color 0.5s ease;
-    -o-transition: background-color 0.5s ease;
+    transition: background-color 1s ease;
+    -webkit-transition: background-color 1s ease;
+    -moz-transition: background-color 1s ease;
+    -o-transition: background-color 1s ease;
 }
 
 section.transacao form button:hover {

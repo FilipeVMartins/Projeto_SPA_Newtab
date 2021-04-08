@@ -217,7 +217,6 @@ function addstr (strA, strB, position) {
 
 
 
-
 function cleanData(event, tablename) {
     let storageclean;
     event.preventDefault();
@@ -228,6 +227,18 @@ function cleanData(event, tablename) {
     //after delete all
     //table.loadData();
     return;
+};
+
+
+
+function toggleMenu() {
+    let togglestate = document.querySelector('header div.wrapper div.menu div.menubar');
+
+    if (togglestate.getAttribute('minimized') == 'true'){
+        togglestate.setAttribute('minimized', 'false');
+    } else {
+        togglestate.setAttribute('minimized', 'true');
+    }
 };
 
 
@@ -278,6 +289,9 @@ window.onload = (event) => {
     setLocalStorageEvents();
 
 };
+
+
+
 
 
 

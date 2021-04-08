@@ -35,6 +35,21 @@
         padding: 4px;
     }
 
+    header div.wrapper div.menu div.menuicon i {
+        transition: background-color 1s ease;
+        -webkit-transition: background-color 1s ease;
+        -moz-transition: background-color 1s ease;
+        -o-transition: background-color 1s ease;
+        cursor: pointer;
+        border-radius: 20%;
+        padding: 10px;
+    }
+
+    header div.wrapper div.menu div.menuicon i:hover {
+        background-color: #333333;
+        color: #C4C4C4;
+    }
+
     header div.wrapper div.menu div.menubar {
         width: calc(162px + 20%); /*para evitar movimento estático dos 252px*/
         background-color: #333333;
@@ -54,7 +69,7 @@
     }
 
     /* exibe a barra lateral, o elemento pai ao receber hover vai exibir a barra lateral, a barra lateral por ser filha continuará contando como se o hover ainda estivesse no elemento pai e assim o elemento filho também continuará sendo exibido*/
-    header div.wrapper div.menu:hover div.menubar {
+    header div.wrapper div.menu div.menubar[minimized="false"] { /* header div.wrapper div.menu:hover div.menubar*/
         right: 0%;
         transition: all 0.5s ease;
         -webkit-transition: all 0.5s ease;
@@ -65,8 +80,9 @@
     header div.wrapper div.menu div.menubar i {
         display: flex;
         padding: 20px;
+        border-radius: 20%;
         color: #FFFFFF;
-        font-size: 20px;
+        font-size: 24px;
         transition: background-color 1s ease;
         -webkit-transition: background-color 1s ease;
         -moz-transition: background-color 1s ease;
