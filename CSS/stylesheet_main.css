@@ -13,13 +13,14 @@ html, body {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
     overflow-x: hidden;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
 }
 
 main {
+    position: relative;
     font-family: 'latoregular';
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF;
@@ -57,6 +58,7 @@ header div.wrapper {
 
 header div.wrapper svg.logo {
     width: auto;
+    min-width: 25px;
     height: auto;
 }
 
@@ -133,6 +135,7 @@ div.conteudo {
     justify-content: center;
     align-self: center;
     width: 100%;
+    margin-bottom: 15vh;
 }
 
 div.conteudo div.wrapper {
@@ -304,7 +307,7 @@ section.transacao form button:hover {
 /* espaçamento na lateral direita aqui foi feito com o próprio padding declarado anteriormente pois o elemento não tem margin*/
 div.conteudo section.extrato{
     width: 680px;
-    height: 281px;
+    height: auto;
     border: none;
 }
 
@@ -384,6 +387,6 @@ footer {
     width: 100vw;
     height: 8px;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     background-color: #333333;
 }
