@@ -1,17 +1,37 @@
 
-
-
-
-
-
 class NewTransaction {
 
     constructor(tipot, nomemerc, valor) {
         this.ttype = tipot;
         this.prodname = nomemerc;
-        this.value = valor;
+        // clean value and convert comma to dot to prevent further erros with math functions in json table.
+        this.value = valor
       };
+
+    validate(){
+        let succeeded = true;
+
+        if (this.ttype == ''){
+            emptyInputMessage ('tipot');
+            succeeded = false;
+        }
+
+        if (this.prodname == ''){
+            emptyInputMessage ('nomemerc');
+            succeeded = false;
+        }
+
+        this.value = this.value.replace(",", ".").replace('R$ ', '');
+        if (this.value == ''){
+            emptyInputMessage ('valor');
+            succeeded = false;
+        }
+
+        return succeeded;
+    }
+
 };
+
 
 
 class LocalStorages {
@@ -82,10 +102,6 @@ class LocalStorages {
 
 
 
-
-
-
-
 class TableView{
 
     constructor (tablename, transactionkey=null){
@@ -103,13 +119,16 @@ class TableView{
         // generate a list with all keys from json tabledata, 
         let jsonkeylist = Object.keys(tabledata);
 
+        
+        // add or remove the row notification to no registries were found
+        this.checkNoTableRow(jsonkeylist);
+
         // loop through this json key list accessing the tabledata items with the given rowkey.
         jsonkeylist.forEach(rowkey => {
             //add to the table view only the keys from json table that are not alrdy present in the view.
             if (viewkeyslist.includes(rowkey) == false){
                 this.writeTableRow(tabledata[rowkey].ttype, tabledata[rowkey].prodname, tabledata[rowkey].value, rowkey);
-            }          
-            
+            }           
         });
 
         // loop through keys present in the view
@@ -119,6 +138,8 @@ class TableView{
                 this.deleteTableRow(viewkeyslist[i]);
             }
         }
+
+        this.sumTableRowsValue(tabledata);
     };
 
     tableViewRows (){
@@ -150,41 +171,97 @@ class TableView{
         newrow.setAttribute('transaction-key', rowkey);
         newrow.innerHTML = `<div class="col">${tipot}</div>
                             <div class="col">${nomemerc}</div>
-                            <div class="col">R$ ${valor}</div>`;
+                            <div class="col">R$ ${valor.replace('.',',')}</div>`;
         lastrow = document.querySelector("#table div.row:last-child");
         document.querySelector("#table").insertBefore(newrow, lastrow);
     };
+
+    checkNoTableRow (jsonkeylist){
+        let norow, lastrow;
+        //check if the notification doesn't alrdy exists
+        let notification = document.querySelector("#table div.row.no-rows");
+
+        // check if there are registries to be sent to view
+        if (jsonkeylist.length == 0 && notification == null){
+            // add the row notification
+            norow = document.createElement("div");
+            norow.className = 'row no-rows';
+            norow.innerHTML =  `<div class="col">&nbsp;&nbsp;&nbsp;</div>
+                                <div class="col">Sem Transações Adicionadas!</div>
+                                <div class="col">R$ 0,00</div>`;
+            lastrow = document.querySelector("#table div.row:last-child");
+            document.querySelector("#table").insertBefore(norow, lastrow);
+
+        } else if (jsonkeylist.length > 0 && notification != null) {
+            // remove the row notification
+            notification.remove();
+        }
+    }
 
     deleteTableRow (key){
         let row = document.querySelector(`#table  div.row[transaction-key="${key}"]`);
         if (row != null){
             row.remove();
-        }
+        };
     };
 
+    sumTableRowsValue(tabledata){
 
+        let sumvalues = 0;
 
+        // sum up the total values of json table
+        Object.entries(tabledata).forEach(
+            ([key, value]) => {
+                if (value.ttype == 'venda'){
+                    sumvalues += parseFloat(value.value);   //console.log(key, value)//debug
+                } else if (value.ttype == 'compra'){
+                    sumvalues -= parseFloat(value.value);
+                };
+            }
+        );
+        sumvalues = Math.round(sumvalues * 100) / 100;
 
+        // updates the total value in the view
+        document.querySelector('div.table #total').innerHTML = 'R$ ' + String(sumvalues).replace('-', '');
+        
+        if (sumvalues > 0){
+            document.querySelector('div.table #profitOrloss').innerHTML = '[LUCRO]';
+        } else if (sumvalues < 0) {
+            document.querySelector('div.table #profitOrloss').innerHTML = '[PREJUÍZO]';
+        } else {
+            document.querySelector('div.table #profitOrloss').innerHTML = '[------]';
+        };
+    };
 
 };
 
 
 
-
+/// user events functions
 
 function formSubmit(event, tablename) {
     let transaction, storage;
     event.preventDefault();
 
     transaction = new NewTransaction (event.target.elements.tipot.value, event.target.elements.nomemerc.value, event.target.elements.valor.value);
-    // storage refers to the new registry beeing storaged to the json table.
-    storage = new LocalStorages (tablename, transaction);
-    storage.save();
+
+    if (transaction.validate()){
+        // storage refers to the new registry beeing storaged to the json table.
+        storage = new LocalStorages (tablename, transaction);
+        storage.save();
+
+        document.querySelector("section.transacao form").reset();
+        console.log('form submit succeeded')
+    } else {
+        console.log('form submit failed')
+    }
+    
+
+
 
     //after a new record being added
     //table.loadData();
     
-
 
     //writeTableRow(transaction.ttype, transaction.prodname, transaction.value);
 
@@ -197,22 +274,6 @@ function formSubmit(event, tablename) {
 
     //console.log(JSON.stringify(transaction));
     //console.log(JSON.parse(JSON.stringify(transaction)));
-};
-
-
-//helper
-function addstr (strA, strB, position) {
-    let output;
-
-    //falta limitar a entrada de position e verificar parametros obrigatorios
-
-    if (position < 0){
-        output = [strA.slice(0, strA.length+1+position), strB, strA.slice(strA.length+1+position, strA.length)].join('');
-    } else {
-        output = [strA.slice(0, position), strB, strA.slice(position)].join('');
-    }
-
-    return output;
 };
 
 
@@ -232,16 +293,66 @@ function cleanData(event, tablename) {
 
 
 function toggleMenu() {
-    let togglestate = document.querySelector('header div.wrapper div.menu div.menubar');
+    const menubarclasses = document.querySelector('header div.wrapper div.menu div.menubar').classList;
 
-    if (togglestate.getAttribute('minimized') == 'true'){
-        togglestate.setAttribute('minimized', 'false');
+    if ([...menubarclasses].includes('not-minimized') == true){
+        menubarclasses.remove('not-minimized');
     } else {
-        togglestate.setAttribute('minimized', 'true');
+        menubarclasses.add('not-minimized');
     }
 };
 
+/// end user events functions
 
+
+
+/// form masks
+
+// number mask for BRL.
+function applyValueMask(event) {
+    event.preventDefault();
+
+    if (event.target.value == ''){
+        event.target.value = 'R$ 0,00'
+    }
+
+    if (event.key.match(/[0-9]/) != null){
+        if (event.target.value[3] == '0'){
+            //event.target.value = event.target.value.substring(1);
+            event.target.value = event.target.value.slice(0, 3) + event.target.value.slice(4);
+        }
+        
+        event.target.value += event.key;
+        event.target.value = event.target.value.replace(",", "");
+        event.target.value = addstr (event.target.value, ',', -3);
+
+    } else if( event.key == 'Backspace') {
+        event.target.value = event.target.value.slice(0, -1);
+        event.target.value = event.target.value.replace(",", "");
+
+        if (event.target.value.length < 6){
+            //event.target.value = '0' + event.target.value;
+            event.target.value = addstr(event.target.value, '0', -3);
+        }
+        event.target.value = addstr(event.target.value, ',', -3);
+    }
+};
+
+// since i'm not using html5 native required validation i couldn't change text color of empty state to #888888 via css only.
+function emptySelectInput(){
+    let elem = document.querySelector('#tipot');
+    if (elem.value == ''){
+        elem.classList.add('empty');
+    } else {
+        elem.classList.remove('empty');
+    }
+};
+
+/// end form masks
+
+
+
+///helpers
 
 // instead of just putting 'table.loadData();' at two other different places i've tried this way, so i won't need to worry about any further uses of this in the future.
 function setLocalStorageEvents(){
@@ -267,6 +378,68 @@ function setLocalStorageEvents(){
     }
     document.addEventListener("localStorageChange", dataevent, false);
 };
+
+
+
+function addstr (strA, strB, position) {
+    let output;
+
+    //falta limitar a entrada de position e verificar parametros obrigatorios
+
+    if (position < 0){
+        output = [strA.slice(0, strA.length+1+position), strB, strA.slice(strA.length+1+position, strA.length)].join('');
+    } else {
+        output = [strA.slice(0, position), strB, strA.slice(position)].join('');
+    };
+
+    return output;
+};
+
+
+
+function emptyInputMessage (inputname){
+
+    // check if msg doesn't alrdy exists
+    
+    if(document.querySelector(`form > div.${inputname} em`) == null){
+
+        // create <em> tag to display the message
+        let msg = document.createElement("em");
+        msg.className = 'validationMsg';
+        msg.setAttribute("style", "color: red; font-size:11px");
+        msg.innerHTML = `O campo acima é obrigatório!`;
+
+        let inputwrapper = document.querySelector(`form > div.${inputname}`);
+        inputwrapper.appendChild(msg);
+
+        let inputfield = document.querySelector(`form > div.${inputname} .input`)
+        inputfield.setAttribute("style", "border-color: #dc3545;");
+
+        
+
+        //add an event to remove the messages   /// change event doesn't work with keydown+preventDefault(), https://stackoverflow.com/questions/46825587/preventdefault-in-a-keydown-event-onchange-event-not-trigger
+        inputfield.addEventListener('blur', (event) => {
+
+            //check if field isn't empty anymore
+            if (inputfield.value != ''){
+
+                //remove red border from input field
+                inputfield.removeAttribute("style");
+
+                // remove <em> tag
+                let emtagmsg = document.querySelector(`form > div.${inputname} em`);
+                if (emtagmsg != null){
+                    emtagmsg.parentNode.removeChild(emtagmsg);
+                };
+            };
+        });
+    };
+};
+
+/// end helpers
+
+
+
 
 
 

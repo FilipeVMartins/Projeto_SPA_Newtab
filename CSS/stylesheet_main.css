@@ -256,7 +256,7 @@ section.transacao form div .input{
 }
 
 /* select input placeholder*/
-section.transacao form div select:required:invalid {
+section.transacao form div #tipot.empty { /*select:required:invalid*/
     color: #888888;
 }
 

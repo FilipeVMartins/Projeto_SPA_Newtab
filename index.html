@@ -40,9 +40,9 @@
                         <div class="menubar" minimized="true">
                             <i class="fa fa-times" aria-hidden="true" onclick="toggleMenu()"></i>
                             <nav>
-                                <a href="" target="_self" onclick="cleanData(event,'transactions')">Limpar dados</a>
-                                <a href="" target="_self">Cadastro de transações</a>
-                                <a href="" target="_self">Salvar no servidor</a>
+                                <a href="" target="_self" onclick="cleanData(event,'transactions'); toggleMenu()">Limpar dados</a>
+                                <a href="" target="_self" onclick="toggleMenu()">Cadastro de transações</a>
+                                <a href="" target="_self" onclick="toggleMenu(); event.preventDefault()">Salvar no servidor</a>
                             </nav>
                         </div>
                     </div>
@@ -56,10 +56,11 @@
                     <section class="transacao">
                         <h2>Nova transação</h2>
                         <form onSubmit="formSubmit(event, 'transactions')">
-                            <div>
+
+                            <div class="tipot">
                                 <label for="tipotr">Tipo de transação</label>
                                 <div class="addarrow">
-                                    <select class="input" id="tipot" name="tipot" required>
+                                    <select onchange="emptySelectInput()" class="input empty" id="tipot" name="tipot">
                                         <option value="" selected disabled hidden>Selecione</option>
                                         <option value="compra">Compra</option>
                                         <option value="venda">Venda</option>
@@ -67,14 +68,17 @@
                                     <i class="fa fa-angle-down" aria-hidden="true"></i>    
                                 </div>            
                             </div>
-                            <div class="divinputmaior">
+
+                            <div class="divinputmaior nomemerc">
                                 <label for="nomemerc">Nome da mercadoria</label>
-                                <input type="text" id="nomemerc" name="nomemerc" class="input" placeholder="Input">
+                                <input type="text" id="nomemerc" name="nomemerc" class="input" placeholder="Digite aqui" >
                             </div>
-                            <div class="divtest">
+
+                            <div class="valor">
                                 <label for="valor">Valor</label>
-                                <input type="number" step="0.01" id="valor" name="valor" class="input" placeholder="R$ 0,00">
+                                <input onkeydown="applyValueMask(event)" autocomplete="off" type="numeric" id="valor" name="valor" class="input" placeholder="R$ 0,00" >
                             </div>
+
                             <button type="submit">Adicionar transação</button>
                         </form>
                     </section>
@@ -89,6 +93,7 @@
                                 <div class="col">Mercadoria</div>
                                 <div class="col">Valor</div>
                             </div>
+                            <!--
                             <div class="row">
                                 <div class="col">+</div>
                                 <div class="col">Lorem ipsum dolor sit amet consectetur</div>
@@ -104,10 +109,11 @@
                                 <div class="col">Lorem ipsum</div>
                                 <div class="col">R$ 9,99</div>
                             </div>
+                            -->
                             <div class="row" id="table-footer">
                                 <div class="col">&nbsp;&nbsp;&nbsp;</div>
                                 <div class="col">Total                                   </div>
-                                <div class="col"> <div>R$ 12.909,99</div> <small>[LUCRO]</small></div>
+                                <div class="col"> <div id="total">R$ 12.909,99</div> <small id="profitOrloss">[LUCRO]</small></div>
                             </div>
                         </div>
                     </section>

@@ -69,7 +69,7 @@
     }
 
     /* exibe a barra lateral, o elemento pai ao receber hover vai exibir a barra lateral, a barra lateral por ser filha continuará contando como se o hover ainda estivesse no elemento pai e assim o elemento filho também continuará sendo exibido*/
-    header div.wrapper div.menu div.menubar[minimized="false"] { /* header div.wrapper div.menu:hover div.menubar*/
+    header div.wrapper div.menu div.menubar.not-minimized { /* header div.wrapper div.menu:hover div.menubar*/
         right: 0%;
         transition: all 0.5s ease;
         -webkit-transition: all 0.5s ease;
@@ -79,7 +79,7 @@
 
     header div.wrapper div.menu div.menubar i {
         display: flex;
-        padding: 20px;
+        padding: 15px;
         border-radius: 20%;
         color: #FFFFFF;
         font-size: 24px;
