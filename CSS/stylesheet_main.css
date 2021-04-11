@@ -258,6 +258,39 @@ section.transacao form div .input{
 /* select input placeholder*/
 section.transacao form div #tipot.empty { /*select:required:invalid*/
     color: #888888;
+    opacity: 1;
+    font-weight: normal;
+}
+
+/* form inputs placeholders, do not group these rules */
+section.transacao form *::-webkit-input-placeholder {
+    color: #888888;
+    opacity: 1;
+    font-weight: normal;
+}
+section.transacao form *::-moz-placeholder {
+    /* FF 19+ */
+    color: #888888;
+    opacity: 1;
+    font-weight: normal;
+}
+section.transacao form *:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #888888;
+    opacity: 1;
+    font-weight: normal;
+}
+section.transacao form *::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: #888888;
+    opacity: 1;
+    font-weight: normal;
+}
+section.transacao form *::placeholder {
+    /* modern browser */
+    color: #888888;
+    opacity: 1;
+    font-weight: normal;
 }
 
 /*section.transacao form div select option[value=""][disabled] {

@@ -21,7 +21,7 @@ class NewTransaction {
             succeeded = false;
         }
 
-        this.value = this.value.replace(",", ".").replace('R$ ', '');
+        this.value = this.value.replace(/\./g, "").replace(",", ".").replace('R$ ', '');
         if (this.value == ''){
             emptyInputMessage ('valor');
             succeeded = false;
@@ -171,7 +171,7 @@ class TableView{
         newrow.setAttribute('transaction-key', rowkey);
         newrow.innerHTML = `<div class="col">${tipot}</div>
                             <div class="col">${nomemerc}</div>
-                            <div class="col">R$ ${valor.replace('.',',')}</div>`;
+                            <div class="col">R$ ${formatTableValue(valor.replace('.',','))}</div>`;
         lastrow = document.querySelector("#table div.row:last-child");
         document.querySelector("#table").insertBefore(newrow, lastrow);
     };
@@ -222,7 +222,7 @@ class TableView{
         sumvalues = Math.round(sumvalues * 100) / 100;
 
         // updates the total value in the view
-        document.querySelector('div.table #total').innerHTML = 'R$ ' + String(sumvalues).replace('-', '');
+        document.querySelector('div.table #total').innerHTML = 'R$ ' + formatTableValue(String(sumvalues).replace('-', '').replace('.', ','));
         
         if (sumvalues > 0){
             document.querySelector('div.table #profitOrloss').innerHTML = '[LUCRO]';
@@ -311,30 +311,77 @@ function toggleMenu() {
 // number mask for BRL.
 function applyValueMask(event) {
     event.preventDefault();
+    inputvalue = event.target.value;
 
-    if (event.target.value == ''){
-        event.target.value = 'R$ 0,00'
-    }
+    if (inputvalue == ''){
+        inputvalue = 'R$ 0,00';
+    };
 
     if (event.key.match(/[0-9]/) != null){
-        if (event.target.value[3] == '0'){
-            //event.target.value = event.target.value.substring(1);
-            event.target.value = event.target.value.slice(0, 3) + event.target.value.slice(4);
-        }
+
+        //remove dots
+        inputvalue = inputvalue.replace(/\./g , "");
+
+        if (inputvalue[3] == '0'){
+            //inputvalue = inputvalue.substring(1);
+            inputvalue = inputvalue.slice(0, 3) + inputvalue.slice(4);
+        };
         
-        event.target.value += event.key;
-        event.target.value = event.target.value.replace(",", "");
-        event.target.value = addstr (event.target.value, ',', -3);
+        inputvalue += event.key;
+        inputvalue = inputvalue.replace(",", "");
+        inputvalue = addstr (inputvalue, ',', -3);
+
+        // add dots
+        // lenght of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
+        let integervalue = inputvalue.slice(3, inputvalue.length-3);
+        // new integer with dots
+        let newintegervalue=integervalue;
+        //loop the integervalue string re-writting it with the dots at after every third position
+        for (i=integervalue.length ; i != 0 ; i--){
+            if ((i % 3) == 0 ){
+                newintegervalue = addstr (newintegervalue, '.', -(i+1));   
+            }
+        }    
+        // take out the first dot from 0 division
+        if (newintegervalue.slice(0,1) == '.'){
+            newintegervalue = newintegervalue.slice(1);
+        };
+        inputvalue = inputvalue.slice(0,3) + newintegervalue + inputvalue.slice(-3);
+
+        //return value
+        event.target.value = inputvalue;
 
     } else if( event.key == 'Backspace') {
-        event.target.value = event.target.value.slice(0, -1);
-        event.target.value = event.target.value.replace(",", "");
+        //remove dots
+        inputvalue = inputvalue.replace(/\./g , "");
 
-        if (event.target.value.length < 6){
-            //event.target.value = '0' + event.target.value;
-            event.target.value = addstr(event.target.value, '0', -3);
-        }
-        event.target.value = addstr(event.target.value, ',', -3);
+        inputvalue = inputvalue.slice(0, -1);
+        inputvalue = inputvalue.replace(",", "");
+
+        if (inputvalue.length < 6){
+            inputvalue = addstr(inputvalue, '0', -3);
+        };
+        inputvalue = addstr(inputvalue, ',', -3);
+
+        // add dots
+        // lenght of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
+        let integervalue = inputvalue.slice(3, inputvalue.length-3);
+        // new integer with dots
+        let newintegervalue=integervalue;
+        //loop the integervalue string re-writting it with the dots at after every third position
+        for (i=integervalue.length ; i != 0 ; i--){
+            if ((i % 3) == 0 ){
+                newintegervalue = addstr (newintegervalue, '.', -(i+1));   
+            }
+        }    
+        // take out the first dot from 0 division
+        if (newintegervalue.slice(0,1) == '.'){
+            newintegervalue = newintegervalue.slice(1);
+        };
+        inputvalue = inputvalue.slice(0,3) + newintegervalue + inputvalue.slice(-3);
+
+        //return value
+        event.target.value = inputvalue;
     }
 };
 
@@ -347,6 +394,27 @@ function emptySelectInput(){
         elem.classList.remove('empty');
     }
 };
+
+// add dots to table numbers
+function formatTableValue(inputvalue){
+
+    // lenght of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
+    let integervalue = inputvalue.slice(0, -3);
+    // new integer with dots
+    let newintegervalue=integervalue;
+    //loop the integervalue string re-writting it with the dots at after every third position
+    for (i=integervalue.length ; i != 0 ; i--){
+        if ((i % 3) == 0 ){
+            newintegervalue = addstr (newintegervalue, '.', -(i+1));   
+        }
+    }    
+    // take out the first dot from 0 division
+    if (newintegervalue.slice(0,1) == '.'){
+        newintegervalue = newintegervalue.slice(1);
+    };
+    inputvalue = newintegervalue + inputvalue.slice(-3);
+    return inputvalue;
+}
 
 /// end form masks
 
@@ -416,28 +484,34 @@ function emptyInputMessage (inputname){
         inputfield.setAttribute("style", "border-color: #dc3545;");
 
         
+        //add the event to remove the messages   /// change event doesn't work with keydown+preventDefault(), https://stackoverflow.com/questions/46825587/preventdefault-in-a-keydown-event-onchange-event-not-trigger
+        inputfield.addEventListener('blur', removeEmptyMsg);
+    
 
-        //add an event to remove the messages   /// change event doesn't work with keydown+preventDefault(), https://stackoverflow.com/questions/46825587/preventdefault-in-a-keydown-event-onchange-event-not-trigger
-        inputfield.addEventListener('blur', (event) => {
+    };
+};
+// using the parameter function this way (external) prevents multiples instances of blur event being added.
+var removeEmptyMsg = function(event) {
+    let inputfield = event.target;
+    let inputname = inputfield.getAttribute("id");
+    //check if field isn't empty anymore
+    if (inputfield.value != ''){
+        
+        //remove red border from input field
+        inputfield.removeAttribute("style");
 
-            //check if field isn't empty anymore
-            if (inputfield.value != ''){
+        // remove <em> tag
+        let emtagmsg = document.querySelector(`form > div.${inputname} em`);
+        if (emtagmsg != null){
+            emtagmsg.parentNode.removeChild(emtagmsg);
+        };
 
-                //remove red border from input field
-                inputfield.removeAttribute("style");
-
-                // remove <em> tag
-                let emtagmsg = document.querySelector(`form > div.${inputname} em`);
-                if (emtagmsg != null){
-                    emtagmsg.parentNode.removeChild(emtagmsg);
-                };
-            };
-        });
+        //remove the listener itself
+        inputfield.removeEventListener('blur', removeEmptyMsg);
     };
 };
 
 /// end helpers
-
 
 
 
@@ -462,26 +536,4 @@ window.onload = (event) => {
     setLocalStorageEvents();
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
