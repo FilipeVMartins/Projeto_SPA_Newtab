@@ -5,7 +5,7 @@ class NewTransaction {
         this.ttype = tipot;
         this.prodname = nomemerc;
         // clean value and convert comma to dot to prevent further erros with math functions in json table.
-        this.value = valor
+        this.value = valor;
       };
 
     validate(){
@@ -75,8 +75,8 @@ class LocalStorages {
             localStorage.setItem(this.lskey, JSON.stringify(localStorageTable));
             
 
-            ///debugs
-            ///console.log(localStorageTable) //returns the newTransaction obj
+            
+            //console.log(JSON.parse(JSON.stringify(transaction)));
             ///console.log(JSON.stringify(localStorageTable));
             ///console.log(JSON.parse(localStorageTable));
             ///localStorageTable = '{'+'"1":'+localStorageTable + ',' + '"2":'+JSON.stringify(this.lsvalue)+'}';
@@ -255,25 +255,6 @@ function formSubmit(event, tablename) {
     } else {
         console.log('form submit failed')
     }
-    
-
-
-
-    //after a new record being added
-    //table.loadData();
-    
-
-    //writeTableRow(transaction.ttype, transaction.prodname, transaction.value);
-
-    //retrieves all registries data from json table.
-    //storagetable = storage.loadAll();
-    //console.log(storagetable);
-
-    //nodes = document.querySelector("#table").children;
-    //console.log(nodes);
-
-    //console.log(JSON.stringify(transaction));
-    //console.log(JSON.parse(JSON.stringify(transaction)));
 };
 
 
@@ -468,7 +449,6 @@ function addstr (strA, strB, position) {
 function emptyInputMessage (inputname){
 
     // check if msg doesn't alrdy exists
-    
     if(document.querySelector(`form > div.${inputname} em`) == null){
 
         // create <em> tag to display the message
