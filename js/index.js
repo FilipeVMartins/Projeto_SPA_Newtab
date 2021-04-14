@@ -276,11 +276,13 @@ function cleanData(event, tablename) {
 function toggleMenu() {
     const menubarclasses = document.querySelector('header div.wrapper div.menu div.menubar').classList;
 
-    if ([...menubarclasses].includes('not-minimized') == true){
-        menubarclasses.remove('not-minimized');
-    } else {
-        menubarclasses.add('not-minimized');
-    }
+    if (window.innerWidth <= 820) {
+        if ([...menubarclasses].includes('not-minimized') == true){
+            menubarclasses.remove('not-minimized');
+        } else {
+            menubarclasses.add('not-minimized');
+        };
+    };
 };
 
 /// end user events functions
@@ -294,6 +296,7 @@ function applyValueMask(event) {
     event.preventDefault();
     inputvalue = event.target.value;
 
+    //sets an initial mask value
     if (inputvalue == ''){
         inputvalue = 'R$ 0,00';
     };
@@ -303,12 +306,13 @@ function applyValueMask(event) {
         //remove dots
         inputvalue = inputvalue.replace(/\./g , "");
 
+        //removes the initial left zeros from 'R$ 0,00'
         if (inputvalue[3] == '0'){
-            //inputvalue = inputvalue.substring(1);
             inputvalue = inputvalue.slice(0, 3) + inputvalue.slice(4);
         };
         
         inputvalue += event.key;
+        //corrects the comma position
         inputvalue = inputvalue.replace(",", "");
         inputvalue = addstr (inputvalue, ',', -3);
 
@@ -317,7 +321,7 @@ function applyValueMask(event) {
         let integervalue = inputvalue.slice(3, inputvalue.length-3);
         // new integer with dots
         let newintegervalue=integervalue;
-        //loop the integervalue string re-writting it with the dots at after every third position
+        // loop the integervalue string re-writting it with the dots at after every third position
         for (i=integervalue.length ; i != 0 ; i--){
             if ((i % 3) == 0 ){
                 newintegervalue = addstr (newintegervalue, '.', -(i+1));   
@@ -327,13 +331,14 @@ function applyValueMask(event) {
         if (newintegervalue.slice(0,1) == '.'){
             newintegervalue = newintegervalue.slice(1);
         };
+        // inserts the new formatted integer part of the value in it, replaceing the previous one
         inputvalue = inputvalue.slice(0,3) + newintegervalue + inputvalue.slice(-3);
 
-        //return value
+        // return value
         event.target.value = inputvalue;
 
     } else if( event.key == 'Backspace') {
-        //remove dots
+        // remove dots
         inputvalue = inputvalue.replace(/\./g , "");
 
         inputvalue = inputvalue.slice(0, -1);
@@ -359,6 +364,7 @@ function applyValueMask(event) {
         if (newintegervalue.slice(0,1) == '.'){
             newintegervalue = newintegervalue.slice(1);
         };
+        // inserts the new formatted integer part of the value in it, replaceing the previous one
         inputvalue = inputvalue.slice(0,3) + newintegervalue + inputvalue.slice(-3);
 
         //return value
