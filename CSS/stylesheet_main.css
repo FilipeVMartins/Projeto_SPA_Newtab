@@ -431,7 +431,7 @@ small {
 
 .window-confirmation .confirmation-menu {
     height: auto;
-    width: calc(162px + 10%); /*to min window width of 180px*/
+    width: calc(144px + 20%); /*to min window width of 180px*/
     background-color: #E0E0E0;
     position: absolute;
     top: 30%;
