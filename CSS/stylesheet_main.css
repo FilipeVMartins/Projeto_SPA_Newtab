@@ -329,6 +329,7 @@ section.transacao form button:hover {
     -o-transition: background-color 0.5s ease;*/
     background-color: #C4C4C4;
     color: #333333;
+    border: 1px solid #333333;
 }
 
 
@@ -409,6 +410,88 @@ small {
     font-weight: normal;
 }
 
+
+
+
+
+.window-confirmation {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    z-index: 6;
+}
+
+.window-confirmation-lock {
+    height: 100%;
+    width: 100%;
+    background-color: #333333;
+    opacity: 0.5;
+    position: absolute;
+    z-index: 6;
+}
+
+.window-confirmation .confirmation-menu {
+    height: auto;
+    width: calc(162px + 10%); /*to min window width of 180px*/
+    background-color: #E0E0E0;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
+    border-radius: 4px;
+    border: 1px solid #333333;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.window-confirmation .confirmation-menu .confirmation-question {
+    background-color: #FFFFFF;
+    font-family: 'latoregular';
+    text-align: center;
+    margin-top: 0px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.window-confirmation .confirmation-menu .confirmation-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer {
+    width: 100%;
+    max-width: 70px;
+    height: 32px;
+    background-color: #333333;
+    border-radius: 4px;
+    border-style: none;
+    font-style: normal;
+    font-weight: normal;   
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 1s ease;
+    -webkit-transition: background-color 1s ease;
+    -moz-transition: background-color 1s ease;
+    -o-transition: background-color 1s ease;
+}
+
+.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.no:hover {
+    background-color: #C4C4C4;
+    color: #333333;
+    border: 1px solid #333333;
+}
+
+.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes:hover {
+    background-color: #dc3545;
+    color: #333333;
+    border: 1px solid #333333;
+}
 
 
 
