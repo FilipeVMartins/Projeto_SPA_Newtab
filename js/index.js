@@ -110,7 +110,7 @@ class TableView{
     };
 
     // function to update view whenever json table is altered in any way.
-    /// it's avoind unecessary re-writing of non-changed nodes, but it could be split into 2 more specific functions that would be triggered after the given specific event. 
+    /// it's avoiding unecessary re-writing of non-changed nodes, but it could be split into 2 more specific functions that would be triggered after the given specific event. 
     loadData(){
         let storage = new LocalStorages (this.tablename);
         let tabledata = storage.loadAll();
@@ -140,6 +140,7 @@ class TableView{
         }
 
         this.sumTableRowsValue(tabledata);
+        this.json = tabledata;
     };
 
     tableViewRows (){
@@ -498,6 +499,94 @@ var removeEmptyMsg = function(event) {
 };
 
 /// end helpers
+
+
+
+
+// ajax requests
+
+function saveData(){
+    var aluno = '4709'; //4709
+    var json = table.json;
+
+    // fetch all api records data first to check if the aluno record doesn't alrdy exist
+    fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico', {
+        headers: {
+            authorization: 'Bearer key2CwkHb0CKumjuM'
+        }
+    })
+    // return the obtained json
+    .then(response => response.json())
+    .then((responseJson) =>{
+        // parse the json while creating an array (alunoexists) containing all the api records with the same aluno field value
+        alunoexists = responseJson.records.filter((record)=>{
+            if(aluno == record.fields.Aluno){
+                return true;
+            }
+            return false
+        });
+
+        // if the created array have its length equals to zero, it means the aluno doesn't have a record yet
+        if (alunoexists.length == 0) {
+            // create new record
+            createRecord(aluno, json);
+        } else {
+            // update the api record with the same id as the first found id record in 'alunoexists' array
+            changeRecord(aluno, json, alunoexists[0].id);
+        };
+    })
+};
+
+function createRecord (aluno, json) {
+
+    body = JSON.stringify({
+        "records": [
+            {
+            "fields": {
+                "Aluno": aluno,
+                "Json": JSON.stringify(json)
+                }
+            }
+        ]
+    });
+
+    fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico', {
+        method: 'POST',
+        headers: {
+            authorization: 'Bearer key2CwkHb0CKumjuM',
+            'content-type': 'application/json'
+        },
+        body: body
+    });
+};
+
+function changeRecord(aluno, json, alunoid){
+    
+    body = JSON.stringify({
+        "records": [
+            {
+            "id": alunoid,
+            "fields": {
+                "Aluno": aluno,
+                "Json": JSON.stringify(json)
+                }
+            }
+        ]
+    });
+
+    fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico', {
+        method: 'PATCH',
+        headers: {
+            authorization: 'Bearer key2CwkHb0CKumjuM',
+            'content-type': 'application/json'
+        },
+        body: body
+    });
+};
+
+// end ajax requests
+
+
 
 
 
