@@ -412,13 +412,12 @@ small {
 
 
 
-
-
 .window-confirmation {
     height: 100vh;
     width: 100vw;
     position: absolute;
     z-index: 6;
+    display: none;
 }
 
 .window-confirmation-lock {
@@ -492,9 +491,6 @@ small {
     color: #333333;
     border: 1px solid #333333;
 }
-
-
-
 
 
 

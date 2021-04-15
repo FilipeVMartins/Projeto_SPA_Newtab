@@ -259,20 +259,53 @@ function formSubmit(event, tablename) {
 };
 
 
+//onclick="cleanData(event,'transactions');"
+function openConfirmationMenu(event, action){
+    event.preventDefault();
 
+    if (action == 'cleanData') {
+        // write clear data question
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja LIMPAR todas as transações cadastradas?';
+
+        // add event to the yes button to execute the final action
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"cleanData(event,'transactions'); closeConfirmationMenu(event);")
+
+    } else if (action == 'saveData') {
+        // write save data to the server question
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja SALVAR todas as transações cadastradas no servidor?';
+
+        // add event to the yes button to execute the final action
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"saveData(); closeConfirmationMenu(event);");
+    }
+
+    // display confirmation
+    confirmationmenu = document.querySelector('.window-confirmation');
+    confirmationmenu.style.display = "block";
+}
+
+// cleans all data from local storage
 function cleanData(event, tablename) {
     let storageclean;
     event.preventDefault();
 
     storageclean = new LocalStorages (tablename);
     storageclean.deleteAll();
-
-    //after delete all
-    //table.loadData();
     return;
 };
 
+function closeConfirmationMenu(event) {
+    event.preventDefault();
 
+    // hide confirmation menu
+    confirmationmenu = document.querySelector('.window-confirmation');
+    confirmationmenu.style.display = "none";
+
+    // remove confirmation question
+    document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = '';
+
+    // remove event from the yes button to execute the final action
+    document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').removeAttribute('onclick')
+}
 
 function toggleMenu() {
     const menubarclasses = document.querySelector('header div.wrapper div.menu div.menubar').classList;

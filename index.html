@@ -40,9 +40,9 @@
                         <div class="menubar" minimized="true">
                             <i class="fa fa-times" aria-hidden="true" onclick="toggleMenu()"></i>
                             <nav>
-                                <a href="javascript:void(0)" target="_self" onclick="cleanData(event,'transactions'); toggleMenu()">Limpar dados</a>
+                                <a href="javascript:void(0)" target="_self" onclick="openConfirmationMenu(event, 'cleanData'); toggleMenu()">Limpar dados</a>
                                 <a href="javascript:void(0)" target="_self" onclick="toggleMenu()">Cadastro de transações</a>
-                                <a href="javascript:void(0)" target="_self" onclick="saveData(); toggleMenu()">Salvar no servidor</a>
+                                <a href="javascript:void(0)" target="_self" onclick="openConfirmationMenu(event, 'saveData'); toggleMenu()">Salvar no servidor</a>
                             </nav>
                         </div>
                     </div>
@@ -123,10 +123,10 @@
             <div class="window-confirmation">
                 <div class="window-confirmation-lock"></div>
                 <div class="confirmation-menu">
-                    <h3 class="confirmation-question">Tem certeza de que deseja limpar todos os cadastros?</h3>
+                    <h3 class="confirmation-question"></h3>
                     <div class="confirmation-options">
                         <button class="confirmation-answer yes">Sim</button>
-                        <button class="confirmation-answer no">Não</button>
+                        <button onclick="closeConfirmationMenu(event);" class="confirmation-answer no">Não</button>
                     </div>
                 </div>
             </div>
