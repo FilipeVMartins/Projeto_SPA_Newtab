@@ -272,7 +272,7 @@ function openConfirmationMenu(event, action){
 
     } else if (action == 'saveData') {
         // write save data to the server question
-        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja SALVAR todas as transações cadastradas no servidor?';
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja SALVAR todas as transações cadastradas para o servidor?';
 
         // add event to the yes button to execute the final action
         document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"saveData(); closeConfirmationMenu(event);");
