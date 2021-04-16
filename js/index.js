@@ -104,10 +104,13 @@ class LocalStorages {
         let jsonkeys = Object.keys(jsonserverdata);
         let lastjsonkey = jsonkeys[jsonkeys.length-1];
 
-        //store the last used key for this data
+        // store the last used key for this data
         localStorage.setItem(this.lskey + '-lastkey', lastjsonkey);
 
-        //convert json to string and save all to local.
+        // clean previous local data
+        localStorage.removeItem(this.lskey);
+
+        // convert json to string and save all to local.
         localStorage.setItem(this.lskey, JSON.stringify(jsonserverdata));
     }
 };
