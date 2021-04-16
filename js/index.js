@@ -686,46 +686,17 @@ function changeRecord(aluno, json, alunoid){
 
 
 
-
-
-
-
-
-
 window.onload = (event) => {
     console.log('page is fully loaded');
 
     // global variable, used both in getServerData() and saveData() functions
     aluno = '4709'; //4709
 
-    
-
-    
     // initialize table view, json data table will be initialized (if it doesn't exist alrdy) after the first form submit.
     table = new TableView('transactions');
 
-
-
-
-
-
-
     // on page load, initial table demand. after getting the server data, this function will create a global variable called jsonserverdata, if it's zero length then local data will be loaded into the view, otherwise json data from server will be used instead.
     getServerData();
-
-
-
-
-
-    
-
-    
-
-
-
-
-
-
 
     // set storage events.
     setLocalStorageEvents();
