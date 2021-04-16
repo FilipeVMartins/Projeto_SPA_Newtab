@@ -98,6 +98,18 @@ class LocalStorages {
         localStorage.removeItem(this.lskey);
         localStorage.removeItem(this.lskey + '-lastkey');
     }
+
+    saveAllServerData(jsonserverdata){
+
+        let jsonkeys = Object.keys(jsonserverdata);
+        let lastjsonkey = jsonkeys[jsonkeys.length-1];
+
+        //store the last used key for this data
+        localStorage.setItem(this.lskey + '-lastkey', lastjsonkey);
+
+        //convert json to string and save all to local.
+        localStorage.setItem(this.lskey, JSON.stringify(jsonserverdata));
+    }
 };
 
 
@@ -179,7 +191,7 @@ class TableView{
 
     checkNoTableRow (jsonkeylist){
         let norow, lastrow;
-        //check if the notification doesn't alrdy exists
+        // check if the notification doesn't alrdy exists
         let notification = document.querySelector("#table div.row.no-rows");
 
         // check if there are registries to be sent to view
@@ -248,7 +260,7 @@ function formSubmit(event, tablename) {
 
     if (transaction.validate()){
         // storage refers to the new registry beeing storaged to the json table.
-        storage = new LocalStorages (tablename, transaction);
+        let storage = new LocalStorages (tablename, transaction);
         storage.save();
 
         document.querySelector("section.transacao form").reset();
@@ -351,7 +363,7 @@ function applyValueMask(event) {
         inputvalue = addstr (inputvalue, ',', -3);
 
         // add dots
-        // lenght of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
+        // length of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
         let integervalue = inputvalue.slice(3, inputvalue.length-3);
         // new integer with dots
         let newintegervalue=integervalue;
@@ -384,7 +396,7 @@ function applyValueMask(event) {
         inputvalue = addstr(inputvalue, ',', -3);
 
         // add dots
-        // lenght of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
+        // length of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
         let integervalue = inputvalue.slice(3, inputvalue.length-3);
         // new integer with dots
         let newintegervalue=integervalue;
@@ -419,7 +431,7 @@ function emptySelectInput(){
 // add dots to table numbers
 function formatTableValue(inputvalue){
 
-    // lenght of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
+    // length of the integer value, the characters between 'R$ ' + 'integervalue' + ',00'
     let integervalue = inputvalue.slice(0, -3);
     // new integer with dots
     let newintegervalue=integervalue;
@@ -538,8 +550,56 @@ var removeEmptyMsg = function(event) {
 
 // ajax requests
 
+// gets the data from server
+function getServerData() {
+
+    // fetch all api records data first to check if the aluno record doesn't alrdy exist
+    fetch('https://api.airtable.com/v0/appRNtYLglpPhv2QD/Historico', {
+        headers: {
+            authorization: 'Bearer key2CwkHb0CKumjuM'
+        }
+    })
+    // return the obtained json
+    .then(response => response.json())
+    .then((responseJson) =>{
+        // parse the json while creating an array (alunoexists) containing all the api records with the same aluno field value
+        alunoexists = responseJson.records.filter((record)=>{
+            if(aluno == record.fields.Aluno){
+                return true;
+            }
+            return false
+        });
+
+        // if the created array have its length equals to zero, it means the aluno doesn't have a record yet
+        if (alunoexists.length == 0) {
+            // if no server registry found then try to load data from localstorage
+            console.log('no aluno registry with this number has been found, add new transactions records and save to the server to create a new one.')
+        } else {
+            // gets the json with the transactions records brought from server and creates a global variable with it.
+            jsonserverdata = JSON.parse(alunoexists[0].fields.Json);
+
+            // if there is an aluno registry at the server but no transactions data in the Json
+            if (Object.keys(jsonserverdata).length == 0){
+                // then no data shall be brought from server, return false and try to load data from local storage
+                console.log('an aluno registry with this number has been found, but there is no data within its Json field. trying to load data from local json table.');
+
+                // initial local data table demand.
+                table.loadData();
+
+            } else {
+                // if there is at least one record inside jsonserverdata.
+                console.log('data from server has been found and will be replacing the localStorage data.');
+
+                let storage = new LocalStorages ('transactions'); //tablename
+                // replace local data with jsonserverdata. after that the table view will refresh itself.
+                storage.saveAllServerData(jsonserverdata);
+            };
+        };
+    });
+};
+
+// sends the localstorage data to the server data, replacing it
 function saveData(){
-    var aluno = '4709'; //4709
     var json = table.json;
 
     // fetch all api records data first to check if the aluno record doesn't alrdy exist
@@ -567,7 +627,7 @@ function saveData(){
             // update the api record with the same id as the first found id record in 'alunoexists' array
             changeRecord(aluno, json, alunoexists[0].id);
         };
-    })
+    });
 };
 
 function createRecord (aluno, json) {
@@ -632,16 +692,39 @@ function changeRecord(aluno, json, alunoid){
 window.onload = (event) => {
     console.log('page is fully loaded');
 
+    // global variable, used both in getServerData() and saveData() functions
+    aluno = '4709'; //4709
 
     
-    //initialize table view, json data table will be initialized (if it doesn't exist alrdy) after the first form submit.
+
+    
+    // initialize table view, json data table will be initialized (if it doesn't exist alrdy) after the first form submit.
     table = new TableView('transactions');
 
-    //on page load, initial table demand.
-    table.loadData();
 
-    //set storage events.
+
+
+
+
+
+    // on page load, initial table demand. after getting the server data, this function will create a global variable called jsonserverdata, if it's zero length then local data will be loaded into the view, otherwise json data from server will be used instead.
+    getServerData();
+
+
+
+
+
+    
+
+    
+
+
+
+
+
+
+
+    // set storage events.
     setLocalStorageEvents();
-
 };
 
