@@ -4,26 +4,14 @@
 
 /* Tablet landscape: 1112 x 834 */
 @media screen and (max-width: 1112px) /*and (max-height: 834px) and (orientation: landscape)*/ {
-    /*body, main {
-        background-color: lightpink;
-    }*/
-
     /*div.conteudo div.wrapper {
         margin-top: 26px;
     }*/
 }
 
 
-
-
-
-
-
 /* tablet portrait: 768 x 1024 */
 @media screen and (max-width: 820px) /*and (max-height: 1024px) and (orientation: portrait)*/ {
-    /*body, main {
-        background-color: lightblue;
-    }*/
 
     header div.wrapper h1 {
         margin-left: auto; /* como já havia um 'margin-left: auto' da div.menu este acabou centralizando o h1, que era o segundo elemento de 3*/
@@ -170,16 +158,8 @@
 }
 
 
-
-
-
-
-
 /* smartphone: 411 x 731 */
 @media screen and (max-width: 520px) /*and (max-height: 731px)*/ {
-    /*body, main {
-        background-color: lightgreen;
-    }*/
 
     div.conteudo div.wrapper {
         margin-top: 10px;

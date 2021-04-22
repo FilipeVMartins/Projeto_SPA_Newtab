@@ -1,3 +1,4 @@
+/* page start */
 body {
     margin: 0;
     position: relative;
@@ -13,7 +14,6 @@ html, body {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
     overflow-x: hidden;
-    /*overflow-y: hidden;*/
 }
 
 main {
@@ -25,7 +25,9 @@ main {
     flex-direction: column;
     background-color: #FFFFFF;
 }
+/* page end*/
 
+/* header start*/
 header {
     background-color: #E0E0E0;
     display: flex;
@@ -45,16 +47,6 @@ header div.wrapper {
     align-items: center;
     /* flex-wrap: wrap; */
 }
-
-/* usei margin auto no lugar disso*/
-/* header div.wrapper2 {
-    padding: 0px;
-    margin: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    /*width: 50%;
-} */
 
 header div.wrapper svg.logo {
     width: auto;
@@ -122,13 +114,10 @@ header div.wrapper div.menu div.menubar nav a:hover {
     background-color: #333333;
     color: #FFFFFF;
 }
+/* header end*/
 
 
-
-
-
-
-
+/* content start*/
 div.conteudo {
     display: flex;
     flex-direction: row;
@@ -164,6 +153,7 @@ div.conteudo section h2 {
     color: #000000;
 }
 
+/* form section start */
 /* espaçamento na lateral esquerda aqui foi feito com margin pois o elemento tem border e padding*/
 div.conteudo section.transacao{
     width: 400px;
@@ -239,7 +229,6 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 /* end inputs customization*/
-
 
 section.transacao form div .input{
     height: 32px;
@@ -322,22 +311,14 @@ section.transacao form button {
 }
 
 section.transacao form button:hover {
-    /* Colocando a transition apenas aqui ela não ocorre no retorno a cor original  */
-    /*transition: background-color 0.5s ease;
-    -webkit-transition: background-color 0.5s ease;
-    -moz-transition: background-color 0.5s ease;
-    -o-transition: background-color 0.5s ease;*/
     background-color: #C4C4C4;
     color: #333333;
     border: 1px solid #333333;
 }
+/* form section end */
 
 
-
-
-
-
-
+/* table section start */
 /* espaçamento na lateral direita aqui foi feito com o próprio padding declarado anteriormente pois o elemento não tem margin*/
 div.conteudo section.extrato{
     width: 680px;
@@ -409,9 +390,11 @@ small {
     font-size: 10px;
     font-weight: normal;
 }
+/* table section end */
+/* content end */
 
 
-
+/* confirmation screen start */
 .window-confirmation {
     height: 100vh;
     width: 100vw;
@@ -491,9 +474,10 @@ small {
     color: #333333;
     border: 1px solid #333333;
 }
+/* confirmation screen end */
 
 
-
+/* footer */
 footer {
     display: block;
     width: 100vw;

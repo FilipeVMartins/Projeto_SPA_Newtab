@@ -701,4 +701,3 @@ window.onload = (event) => {
     // set storage events.
     setLocalStorageEvents();
 };
-
