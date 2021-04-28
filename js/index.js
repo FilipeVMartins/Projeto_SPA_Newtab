@@ -73,13 +73,6 @@ class LocalStorages {
 
             //convert json to string and save all to local.
             localStorage.setItem(this.lskey, JSON.stringify(localStorageTable));
-            
-
-            
-            //console.log(JSON.parse(JSON.stringify(transaction)));
-            ///console.log(JSON.stringify(localStorageTable));
-            ///console.log(JSON.parse(localStorageTable));
-            ///localStorageTable = '{'+'"1":'+localStorageTable + ',' + '"2":'+JSON.stringify(this.lsvalue)+'}';
         }
     }
 
@@ -129,7 +122,7 @@ class TableView{
     loadData(){
         let storage = new LocalStorages (this.tablename);
         let tabledata = storage.loadAll();
-        //generates a list with all the keys alrdy present in the table view.
+        // generates a list with all the keys alrdy present in the table view.
         let viewkeyslist = this.tableViewRows();
         // generate a list with all keys from json tabledata, 
         let jsonkeylist = Object.keys(tabledata);
@@ -140,7 +133,7 @@ class TableView{
 
         // loop through this json key list accessing the tabledata items with the given rowkey.
         jsonkeylist.forEach(rowkey => {
-            //add to the table view only the keys from json table that are not alrdy present in the view.
+            // add to the table view only the keys from json table that are not alrdy present in the view.
             if (viewkeyslist.includes(rowkey) == false){
                 this.writeTableRow(tabledata[rowkey].ttype, tabledata[rowkey].prodname, tabledata[rowkey].value, rowkey);
             }           
@@ -148,7 +141,7 @@ class TableView{
 
         // loop through keys present in the view
         for (let i=0 ; i < viewkeyslist.length ; i++){
-            //delete from table view the absent keys in json table.
+            // delete from table view the absent keys in json table.
             if (jsonkeylist.includes(viewkeyslist[i]) == false){
                 this.deleteTableRow(viewkeyslist[i]);
             }
@@ -163,7 +156,7 @@ class TableView{
         let tablenodes = document.querySelector("#table").children;
         var rowskeylist = new Array();
 
-        //creates a list of the transaction-key attribute values present in the table. i'm gonna use this list to sync the data between table view and json table.
+        // creates a list of the transaction-key attribute values present in the table. i'm gonna use this list to sync the data between table view and json table.
         for (let i=0 ; i < tablenodes.length ; i++){
             if (tablenodes[i].getAttribute("transaction-key") != null){
                 rowskeylist.push(tablenodes[i].getAttribute("transaction-key"));
@@ -416,7 +409,7 @@ function applyValueMask(event) {
         // inserts the new formatted integer part of the value in it, replaceing the previous one
         inputvalue = inputvalue.slice(0,3) + newintegervalue + inputvalue.slice(-3);
 
-        //return value
+        // return value
         event.target.value = inputvalue;
     }
 };
@@ -438,7 +431,7 @@ function formatTableValue(inputvalue){
     let integervalue = inputvalue.slice(0, -3);
     // new integer with dots
     let newintegervalue=integervalue;
-    //loop the integervalue string re-writting it with the dots at after every third position
+    // loop the integervalue string re-writting it with the dots at after every third position
     for (i=integervalue.length ; i != 0 ; i--){
         if ((i % 3) == 0 ){
             newintegervalue = addstr (newintegervalue, '.', -(i+1));   
