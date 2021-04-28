@@ -453,21 +453,46 @@ function formatTableValue(inputvalue){
 
 // instead of just putting 'table.loadData();' at two other different places i've tried this way, so i won't need to worry about any further uses of this in the future.
 function setLocalStorageEvents(){
-    
-    var originalSetItem = localStorage.setItem;
-    localStorage.setItem = function() {
-        originalSetItem.apply(this, arguments);
+    // set the event
+    var event = new Event('localStorageChange');
 
-        var event = new Event('localStorageChange');
-        document.dispatchEvent(event);
+    // save the original setItem prototype
+    var originalSetItem = Storage.prototype.setItem;
+    // override setItem prototype
+    Storage.prototype.setItem = function() { 
+
+        // check if it's being called on localStorage object
+        if (this === window.localStorage) {
+
+            // set the default action of setItem plus continue to add new actions
+            originalSetItem.apply(this, arguments);
+            // set the dispatchEvent whenever this func is called
+            document.dispatchEvent(event);
+
+        } else {
+            // if not, fallback to default action
+            originalSetItem.apply(this, arguments);
+        }
     };
+    
 
-    var originalRemoveItem = localStorage.removeItem;
-    localStorage.removeItem = function() {
-        originalRemoveItem.apply(this, arguments);
-        
-        var event = new Event('localStorageChange');
-        document.dispatchEvent(event);
+    // save the original removeItem prototype
+    var originalRemoveItem = Storage.prototype.removeItem;
+    // override removeItem prototype
+    Storage.prototype.removeItem = function() {
+
+        // check if it's being called on localStorage object
+        if (this === window.localStorage) {
+
+            // set the default action of removeItem plus continue to add new actions
+            originalRemoveItem.apply(this, arguments);
+            // set the dispatchEvent whenever this func is called
+            document.dispatchEvent(event);
+
+        } else {
+            // if not, fallback to default action
+            originalRemoveItem.apply(this, arguments);
+        }
     };
 
     let dataevent = function(){
