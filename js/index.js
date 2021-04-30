@@ -33,7 +33,6 @@ class NewTransaction {
 };
 
 
-
 class LocalStorages {
 
     constructor(tablename, value=null) {
@@ -268,22 +267,40 @@ function formSubmit(event, tablename) {
 
 
 //onclick="cleanData(event,'transactions');"
-function openConfirmationMenu(event, action){
-    event.preventDefault();
+function openConfirmationMenu(event='', action){
+    if (event){
+        event.preventDefault();
+    }
 
     if (action == 'cleanData') {
-        // write clear data question
-        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja LIMPAR todas as transações cadastradas localmente?';
+        // write 'clear data' question
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja LIMPAR todas as transações cadastradas LOCALMENTE?<br><small>(Para apagar os dados no servidor basta, em seguida, clicar em "Salvar no Servidor")</small>';
 
         // add event to the yes button to execute the final action
-        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"cleanData(event,'transactions'); closeConfirmationMenu(event);")
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"cleanData(event,'transactions'); closeConfirmationMenu(event);");
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.no').setAttribute('onclick',"closeConfirmationMenu(event);");
 
     } else if (action == 'saveData') {
-        // write save data to the server question
+        // write 'save data to the server' question
         document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Tem certeza de que deseja SALVAR todas as transações cadastradas localmente para o servidor?';
 
         // add event to the yes button to execute the final action
         document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"saveData(); closeConfirmationMenu(event);");
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.no').setAttribute('onclick',"closeConfirmationMenu(event);");
+    } else if (action == 'chooseData1') {
+        // write 'choose data between local and remote empty data' question
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Os dados vindos do servidor estão vazios, deseja MANTER os dados carregados localmente?';
+
+        // add event to the yes button to execute the final action
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"closeConfirmationMenu(event);");
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.no').setAttribute('onclick',"cleanData(event,'transactions'); closeConfirmationMenu(event);");
+    } else if (action == 'chooseData2'){
+        // write 'choose data between local and remote data' question
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-question').innerHTML = 'Os dados vindos do servidor são diferentes dos armazenados localmente. Deseja utilizar os dados vindos do servidor?';
+
+        // add event to the yes button to execute the final action
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.yes').setAttribute('onclick',"getServerDataConfirmation(true); closeConfirmationMenu(event);");
+        document.querySelector('.window-confirmation .confirmation-menu .confirmation-options .confirmation-answer.no').setAttribute('onclick',"getServerDataConfirmation(false); closeConfirmationMenu(event);");
     }
 
     // display confirmation
@@ -604,23 +621,47 @@ function getServerData() {
             if (Object.keys(jsonserverdata).length == 0){
                 // then no data shall be brought from server, return false and try to load data from local storage
                 console.log('an aluno registry with this number has been found, but there is no data within its Json field. trying to load data from local json table.');
-                alert('an aluno registry with this number has been found, but there is no data within its Json field. trying to load data from local json table.');
+                
+                // check if there are local data to choose from
+                if (!(localStorage.getItem('transactions') === null)) {
+                    openConfirmationMenu('', 'chooseData1');
+                }
 
                 // initial local data table demand.
                 table.loadData();
 
             } else {
                 // if there is at least one record inside jsonserverdata.
-                console.log('data from server has been found and will be replacing the localStorage data.');
-                alert('data from server has been found and will be replacing the localStorage data.');
+                console.log('data from server has been found and it may be replacing the localStorage data.');
 
-                let storage = new LocalStorages ('transactions'); //tablename
-                // replace local data with jsonserverdata. after that the table view will refresh itself.
-                storage.saveAllServerData(jsonserverdata);
+                // check if the incoming data is different from local data, if so...
+                if (JSON.stringify(jsonserverdata) != localStorage.getItem('transactions')){
+                    openConfirmationMenu('', 'chooseData2');
+
+                } else {
+                    // case the datas are the same, use the incoming one from server.
+                    let storage = new LocalStorages ('transactions'); //tablename, i didn't declare before the first 'if' because there is 1/3 scenario where it isn't used.
+                    // replace local data with jsonserverdata. after that the table view will refresh itself.
+                    storage.saveAllServerData(jsonserverdata);
+                }
+
+                
             };
         };
     });
 };
+
+function getServerDataConfirmation(lastAnswer) {
+    // check if user wants to use data from server
+    if (lastAnswer == true){
+        let storage = new LocalStorages ('transactions'); //tablename
+        // replace local data with jsonserverdata. after that the table view will refresh itself.
+        storage.saveAllServerData(jsonserverdata);
+    } else {
+        // case the user has chosen local data instead, start initial local data table demand.
+        table.loadData();
+    }
+}
 
 // sends the localstorage data to the server data, replacing it
 function saveData(){
@@ -702,8 +743,6 @@ function changeRecord(aluno, json, alunoid){
 };
 
 // end ajax requests
-
-
 
 
 
