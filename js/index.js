@@ -222,7 +222,7 @@ class TableView{
         Object.entries(tabledata).forEach(
             ([key, value]) => {
                 if (value.ttype == 'venda'){
-                    sumvalues += parseFloat(value.value);   //console.log(key, value)//debug
+                    sumvalues += parseFloat(value.value);
                 } else if (value.ttype == 'compra'){
                     sumvalues -= parseFloat(value.value);
                 };
@@ -594,7 +594,8 @@ function getServerData() {
         // if the created array have its length equals to zero, it means the aluno doesn't have a record yet
         if (alunoexists.length == 0) {
             // if no server registry found then try to load data from localstorage
-            console.log('no aluno registry with this number has been found, add new transactions records and save to the server to create a new one.')
+            console.log('no aluno registry with this number has been found, add new transactions records and save to the server to create a new one.');
+            alert('no aluno registry with this number has been found, add new transactions records and save to the server to create a new one.');
         } else {
             // gets the json with the transactions records brought from server and creates a global variable with it.
             jsonserverdata = JSON.parse(alunoexists[0].fields.Json);
@@ -603,6 +604,7 @@ function getServerData() {
             if (Object.keys(jsonserverdata).length == 0){
                 // then no data shall be brought from server, return false and try to load data from local storage
                 console.log('an aluno registry with this number has been found, but there is no data within its Json field. trying to load data from local json table.');
+                alert('an aluno registry with this number has been found, but there is no data within its Json field. trying to load data from local json table.');
 
                 // initial local data table demand.
                 table.loadData();
@@ -610,6 +612,7 @@ function getServerData() {
             } else {
                 // if there is at least one record inside jsonserverdata.
                 console.log('data from server has been found and will be replacing the localStorage data.');
+                alert('data from server has been found and will be replacing the localStorage data.');
 
                 let storage = new LocalStorages ('transactions'); //tablename
                 // replace local data with jsonserverdata. after that the table view will refresh itself.
